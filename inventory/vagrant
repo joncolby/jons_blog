@@ -1,2 +1,2 @@
 [vagrant]
-jonsblog ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/Users/jonathan.colby/git-repos/jons_blog/.vagrant/machines/default/virtualbox/private_key
+jonsblog ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/Users/{{ansible_user_id}}/git-repos/jons_blog/.vagrant/machines/default/virtualbox/private_key
