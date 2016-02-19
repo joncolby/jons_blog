@@ -31,6 +31,10 @@
 #    gunicorn_proc_name: mezzanine
 #    vars_files:
 #      - secrets.yml
+  pre_tasks:
+
+    - name: setup
+      setup:
 
   tasks:
 
