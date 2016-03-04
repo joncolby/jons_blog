@@ -1,0 +1,55 @@
+---
+# creation of ec2 instance relies on certain environment variables
+- name: Create an ubuntu instance on Amazon EC2
+  connection: local
+  hosts: localhost
+  gather_facts: false
+  vars:
+    - region: "{{ lookup('env','AWS_REGION') }}"
+  tasks:
+
+    - name: web security group
+      ec2_group:
+        name: blog_web
+        description: allow http and https access
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+    
+    - name: ssh security group
+      ec2_group:
+        name: blog_ssh
+        description: allow ssh access
+        rules:
+        - proto: tcp
+          from_port: 22
+          to_port: 22
+          cidr_ip: 0.0.0.0/0
+
+    - name: outbound group
+      ec2_group:
+        name: blog_outbound
+        description: allow outbound connections to the internet
+        region: "{{ region }}"
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0
+
+    - name: start the instance
+      ec2:
+        image: ami-d22932be
+        region: eu-central-1
+        instance_type: t2.small
+        wait: yes
+        exact_count: 1
+        count_tag:
+          Name: blog
+        key_name: blog
+        group: [blog_web,blog_ssh,blog_outbound]
+        instance_tags: { Name: blog, env: production }
