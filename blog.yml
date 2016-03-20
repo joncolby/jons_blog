@@ -1,0 +1,26 @@
+---
+
+- name: wordpress blog
+  hosts: tag_Name_blog
+
+  tasks:
+
+    - name: upgrade all packages
+      yum: name=* state=latest
+      become: True
+
+    - name: install packages
+      yum: name={{ item }} update_cache=yes state=latest 
+      become: True
+      with_items:
+        - mysql
+
+#    - name: check out the repository on the host
+#      git: repo={{ repo_url }} dest={{ proj_path }} accept_hostkey=yes
+#
+#    - name: run mezzanine setup
+#      command: /usr/bin/python setup.py install
+#      become: True
+#      args:
+#        chdir: "{{ proj_path }}"
+#        creates: "{{ proj_path }}/build"

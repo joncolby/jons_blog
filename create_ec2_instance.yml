@@ -11,6 +11,7 @@
     - name: web security group
       ec2_group:
         name: blog_web
+        profile: blog
         description: allow http and https access
         rules:
           - proto: tcp
@@ -25,6 +26,7 @@
     - name: ssh security group
       ec2_group:
         name: blog_ssh
+        profile: blog
         description: allow ssh access
         rules:
         - proto: tcp
@@ -35,6 +37,7 @@
     - name: outbound group
       ec2_group:
         name: blog_outbound
+        profile: blog
         description: allow outbound connections to the internet
         region: "{{ region }}"
         rules_egress:
@@ -44,6 +47,7 @@
     - name: start the instance
       ec2:
         image: ami-d22932be
+        profile: blog
         region: eu-central-1
         instance_type: t2.small
         wait: yes
